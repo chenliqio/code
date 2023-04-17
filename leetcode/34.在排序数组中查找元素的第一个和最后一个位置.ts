@@ -18,14 +18,18 @@ function searchRange(nums: number[], target: number): number[] {
   const getLeftBorder = (nums: number[], target: number): number => {
     let left: number = 0,
       right: number = nums.length - 1; //定义target在左闭右闭的区间里面
-    let leftBorder = -2; // leftBorder没有被赋值的情况
+    // length-1表示target在nums区间的右边
+    let leftBoard: number = nums.length - 1;
     while (left <= right) {
       // 右移运算符>> ，运算结果是一个整数的二分之一，能代替数学上除2的运算，但是比这个运算更快
-      let mid = left + ((right - left) >> 1);
+      //   let mid = left + ((right - left) >> 1);
+      let mid = Math.floor((left + right) / 2); //防止溢出
       if (nums[mid] >= target) {
+        // 左边界一定在mid左边（不含mid）
         right = mid - 1;
         leftBorder = right;
       } else {
+        // 左边界在mid右边（含mid）
         left = mid + 1;
       }
     }
@@ -43,10 +47,10 @@ function searchRange(nums: number[], target: number): number[] {
       if (nums[mid] <= target) {
         // 右边界一定在mid右边（不含mid）
         left = mid + 1;
-        rightBorder = left; //当nums[mid] == target ,更新left，这样才能得到target的右边界 [mid+1,right]
+        rightBorder = left;
       } else {
         // 右边界在mid左边（含mid）
-        right = mid - 1; //target 在左区间内，所以[left,mid-1]
+        right = mid - 1; 
       }
     }
     return rightBorder;
@@ -55,13 +59,14 @@ function searchRange(nums: number[], target: number): number[] {
   let leftBorder: number = getLeftBorder(nums, target);
   let rightBorder: number = getRightBorder(nums, target);
 
-  //   情况1
-  if (leftBorder === -2 || rightBorder === -2) {
+  //   情况1 在区间范围之外的左侧或者右侧
+  if (leftBorder === nums.length - 1 || rightBorder === 0) {
     return [-1, -1];
   }
-  //   情况3
+  //   情况3 在区间内并且存在target
   if (leftBorder - rightBorder > 1) return [leftBorder + 1, rightBorder - 1];
 
-  //   情况2
+  //   情况2  在区间内但不存在target
+  //   if (leftBorder - rightBorder <=1) return [-1, 1];
   return [-1, 1];
 }
