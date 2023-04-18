@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="debounce-button" onclick="debounce(handleInputOnchange,100)">
+      防抖
+    </button>
+    <!-- 写一个响应input 的onChange事件 -->
+    <script>
+      const button = document.getElementById("#debounce-button");
+      const handleInputOnchange = (e) => {
+        console.log("发起请求。。。");
+      };
+      // input.oninput = debounce(handleInputOnchange,300);
+      // 防抖就是出发时间n秒后只会执行一次，如果n秒内事件再次出发，则会重新计时
+      // 小于n秒的时候，再次触发则计时器从头开始计时，大于n秒时就直接调用这个方法
+      function debounce(fn, waitTime) {
+        let timer = 0;
+        return function (...args) {
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(() => {
+            fn.call(this, ...args);
+          }, waitTime);
+          console.log(timer);
+        };
+      }
+    </script>
+  </body>
+</html>
