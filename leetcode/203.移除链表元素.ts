@@ -21,24 +21,40 @@ class ListNode {
     this.next = next === undefined ? null : next;
   }
 }
-function removeElements(head: ListNode | null, val: number): ListNode | null {
-  // 删除头节点
-  while (head !== null && head.val === val) {
-    head = head.next;
-  }
-  if (head === null) return head;
+// function removeElements(head: ListNode | null, val: number): ListNode | null {
+//   // 删除头节点
 
-  // 删除非头节点
-  let pre: ListNode = head,
-      cur: ListNode | null = head.next;
-  while (cur) {
-    if (cur.val === val) {
+//   while (head !== null && head.val === val) {
+//     head = head.next;
+//   }
+//   if (head === null) return head;
+
+//   // 删除非头节点
+//   let pre: ListNode = head,
+//     cur: ListNode | null = head.next;
+//   while (cur) {
+//     if (cur.val === val) {
+//       pre.next = cur.next;
+//     } else {
+//       pre = pre.next as ListNode;
+//     }
+//     cur = cur.next;
+//   }
+//   return head;
+// }
+
+// 方法二、添加虚拟头节点
+function removeElements(head: ListNode | null, val: number): ListNode | null {
+  // 添加虚拟节点
+  const data = new ListNode(0,head);
+  let pre = data,cur=data.next;
+  while(cur){
+    if(cur.val === val){
       pre.next = cur.next;
-    } else {
-      pre = pre.next as ListNode;
+    }else {
+      pre = cur;
     }
     cur = cur.next;
   }
-  return head;
+  return data.next
 }
-
