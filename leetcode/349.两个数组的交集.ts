@@ -10,7 +10,7 @@ function intersection(nums1: number[], nums2: number[]): number[] {
     // 创建一个哈希表，存储 nums1元素
     numsSet: Set<number> = new Set(nums1);
   // 遍历 nums2,使用for循环遍历
-  for (let i = 0; i < nums2.length; i++) {
+  for (let i = 0; i < nums2.length -1 ; i++) {
     // 如果哈希表中有该元素，则将该元素存入哈希表
     if (numsSet.has(nums2[i])) {
       resSet.add(nums2[i]);
